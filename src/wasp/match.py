@@ -3,6 +3,7 @@ import numpy as np
 #import pandas as pd
 # \\ XXX only load if LSST stack is loaded?
 from lsst import geom as afwGeom
+from . import writer
 
 def load_merian_visits ():
     '''
@@ -16,7 +17,11 @@ def visits_to_tract ():
     '''
     raise NotImplementedError
 
-def write_reduction ( tract_id, visits, suffix='testWide')
+def write_reduction ( tract_id, visits, suffix='wideTEST'):
+    with open ( f'../scripts/tract{tract_id}_{suffix}.sh', 'w' ) as f:
+        script = writer.generate_script ( tract_id, visits, suffix )
+        print(script, file=f)
+    
 
 def make_afw_coords(coord_list):
     """
