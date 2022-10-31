@@ -1,6 +1,9 @@
 import subprocess
 
 def get_all_tracts ( repo ):
+    '''
+    Get a list of all tracts that overlap the current footprint
+    '''
     tracts = []
     for data_id in butler.registry.queryDataIds(
             'tract',
