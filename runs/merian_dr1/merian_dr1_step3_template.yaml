@@ -1,0 +1,29 @@
+pipelineYaml: "$DRP_PIPE_DIR/pipelines/DECam/DRP-Merian.yaml#step3"
+wmsServiceClass: lsst.ctrl.bps.parsl.ParslService
+computeSite: tiger  # [local/tiger]
+parsl:
+  log_level: DEBUG
+includeConfigs:
+  - /tigress/kadofong/merian/data_reduction/scripts/merian_dr1/bps/execution_butler_copy_files.yaml
+  - /tigress/kadofong/merian/data_reduction/scripts/merian_dr1/bps/DRP-recalibrated.yaml
+payload:
+  butlerConfig: /projects/MERIAN/repo
+  inCollection: DECam/defaults/merian,DECam/runs/merian/w_2022_29
+  output: DECam/runs/merian/dr1_wide
+  dataQuery: "instrument='DECam' AND skymap='hsc_rings_v1' AND tract in (<TRACTS>)"
+clusterAlgorithm: lsst.ctrl.bps.quantum_clustering_funcs.dimension_clustering
+saveClusteredQgraph: true
+site:
+  local:
+    class: lsst.ctrl.bps.parsl.sites.Local
+    cores: 12
+  tiger:
+    class: lsst.ctrl.bps.parsl.sites.princeton.Tiger
+    nodes: 4
+    cores_per_node: 40
+    walltime: "24:00:00"  # researchcomputing.princeton.edu/systems/tiger#scheduling
+    singleton: True
+    max_blocks: 2
+
+# ADDED to restart without rerunning all completed quanta
+extraQgraphOptions: "--skip-existing-in {output} --clobber-outputs"
