@@ -1,6 +1,6 @@
 import subprocess
 
-def get_all_tracts ( repo ):
+def get_all_tracts ( butler ):
     '''
     Get a list of all tracts that overlap the current footprint
     '''
