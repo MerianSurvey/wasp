@@ -103,7 +103,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser ( prog='map_dataproducts.py', description='QA visualization of reduction progress')
     parser.add_argument ( '--collections', '-c', action='store', default="DECam/runs/merian/dr1_wide",
                           help='collections to query')    
-    args = parse.parse_args ()
+    args = parser.parse_args ()
     
     butler = dafButler.Butler('/projects/MERIAN/repo/', collections=args.collections, skymap='hsc_rings_v1')
     df = map_dataproducts.main ( butler,  )
