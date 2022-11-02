@@ -91,3 +91,25 @@ def main ( butler, data_products=['objectTable','objectTable_tract', 'deepCoadd_
         df.loc[stats[:,0],dp] = stats[:,1]
     df = df.replace(np.NaN,-1)
     return df
+
+
+if __name__ == '__main__':
+    import argparse
+    import lsst.daf.butler as dafButler
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    
+    parser = argparse.ArgumentParser ( prog='map_dataproducts.py', description='QA visualization of reduction progress')
+    parser.add_argument ( '--collections', '-c', action='store', default="DECam/runs/merian/dr1_wide",
+                          help='collections to query')    
+    args = parse.parse_args ()
+    
+    butler = dafButler.Butler('/projects/MERIAN/repo/', collections=args.collections, skymap='hsc_rings_v1')
+    df = map_dataproducts.main ( butler,  )
+    
+    for colname in df.columns:
+        make_map ( df[colname], skymap )
+        plt.savefig(f'./{colname}.png')
+        plt.close ()
+        
