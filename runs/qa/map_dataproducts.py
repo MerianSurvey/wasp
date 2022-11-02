@@ -106,7 +106,7 @@ if __name__ == '__main__':
     args = parser.parse_args ()
     
     butler = dafButler.Butler('/projects/MERIAN/repo/', collections=args.collections, skymap='hsc_rings_v1')
-    df = map_dataproducts.main ( butler,  )
+    df = main ( butler )
     
     for colname in df.columns:
         make_map ( df[colname], skymap )
